@@ -3,6 +3,7 @@ import { data } from 'react-router'
 import { z } from 'zod'
 import { pointsArg, storyTypeArg } from '~/mcp/access'
 import { requireApiUser } from '~/utils/api-auth.server'
+import { contextToBackendConfig } from '~/utils/backendConfig'
 import { getPrisma } from '~/utils/db.server'
 import { createTrackerDb } from '~/utils/tracker-db.server'
 
@@ -96,7 +97,7 @@ export async function action({ params, request, context }: ActionFunctionArgs) {
 		})
 
 		// Get the dashboard URL from environment
-		const dashboardUrl = context.cloudflare.env.DASHBOARD_URL || 'http://localhost:5173'
+		const dashboardUrl = contextToBackendConfig(context).dashboardUrl
 
 		// Build response
 		const response: CreateStoryResponse = {

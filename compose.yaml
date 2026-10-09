@@ -1,0 +1,18 @@
+services:
+  opentracker:
+    image: opentracker:local
+    build: .
+    restart: unless-stopped
+    ports:
+      - '${HOST_PORT:-3000}:3000'
+    volumes:
+      - '${APPDATA_PATH:-./data}:/data'
+    environment:
+      DASHBOARD_URL: '${DASHBOARD_URL:-http://localhost:3000}'
+      TZ: '${TZ:-Etc/UTC}'
+      PUID: '${PUID:-99}'
+      PGID: '${PGID:-100}'
+      UMASK: '${UMASK:-002}'
+      SESSION_SECRET: '${SESSION_SECRET:-}'
+      COOKIE_SECURE: '${COOKIE_SECURE:-}'
+      TRUST_PROXY: '${TRUST_PROXY:-false}'

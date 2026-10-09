@@ -40,6 +40,21 @@ above at `http://localhost:5173/mcp`.
 
 `npm run dev:tunnel` is the same server behind a named cloudflared tunnel (used for the hosted dev instance).
 
+## Docker and Unraid
+
+Docker runs the app on Node.js with a local SQLite database. It needs no Cloudflare account, D1, or external database. The web UI,
+REST API and MCP endpoint share container port `3000`. See [the Unraid guide](docs/unraid.md) for installation, configuration,
+updates and backups.
+
+```sh
+cp .env.docker.example .env
+# Set DASHBOARD_URL to the address you will open in your browser.
+docker compose up -d --build
+```
+
+Data and a generated session secret persist in `./data` by default. Database migrations run before each startup. For Unraid use
+the supplied Docker Manager template rather than Compose.
+
 ## Deploy to your own Cloudflare
 
 ```sh

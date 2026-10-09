@@ -49,7 +49,8 @@ jobs:
     name: Deploy Preview
     needs: typecheck
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    if:
+      github.repository == 'usero-feedback/opentracker' && github.event_name == 'pull_request' && github.event.action != 'closed'
 
     steps:
       - name: Checkout code
@@ -175,7 +176,8 @@ jobs:
   cleanup_preview:
     name: Cleanup Preview
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    if:
+      github.repository == 'usero-feedback/opentracker' && github.event_name == 'pull_request' && github.event.action == 'closed'
 
     steps:
       - name: Delete Preview Database
@@ -192,7 +194,7 @@ jobs:
     name: Deploy to Production
     needs: typecheck
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.repository == 'usero-feedback/opentracker' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout code

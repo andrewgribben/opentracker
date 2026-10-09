@@ -1,5 +1,5 @@
 import { isbot } from 'isbot'
-import { renderToReadableStream } from 'react-dom/server'
+import { renderToReadableStream } from 'react-dom/server.browser'
 import type { AppLoadContext, EntryContext, HandleErrorFunction } from 'react-router'
 import { ServerRouter } from 'react-router'
 import { contextToBackendConfig } from '~/utils/backendConfig'

@@ -5,7 +5,7 @@ import { contextToBackendConfig } from '~/utils/backendConfig'
 let warnedNoCredentials = false
 
 // Null when SES_AWS_* are unset, so email is a logged no-op.
-function getSESClient(accessKeyId: string | undefined, secretAccessKey: string | undefined): SESClient | null {
+function getSESClient(accessKeyId: string | undefined, secretAccessKey: string | undefined, region: string): SESClient | null {
 	if (!accessKeyId || !secretAccessKey) {
 		if (!warnedNoCredentials) {
 			console.log('Email disabled: SES_AWS_ACCESS_KEY_ID / SES_AWS_SECRET_ACCESS_KEY not set')
@@ -13,7 +13,7 @@ function getSESClient(accessKeyId: string | undefined, secretAccessKey: string |
 		}
 		return null
 	}
-	return new SESClient({ region: 'us-west-2', credentials: { accessKeyId, secretAccessKey } })
+	return new SESClient({ region, credentials: { accessKeyId, secretAccessKey } })
 }
 
 function logUnsentEmail(emailData: EmailData) {
@@ -37,7 +37,7 @@ export interface EmailData {
 
 export async function sendEmailViaSES(emailData: EmailData, context: AppLoadContext): Promise<boolean> {
 	const backendConfig = contextToBackendConfig(context)
-	const ses = getSESClient(backendConfig.sesAccessKeyId, backendConfig.sesSecretAccessKey)
+	const ses = getSESClient(backendConfig.sesAccessKeyId, backendConfig.sesSecretAccessKey, backendConfig.sesRegion)
 	if (!ses || !backendConfig.emailFrom) {
 		logUnsentEmail(emailData)
 		return backendConfig.environment !== 'prod'

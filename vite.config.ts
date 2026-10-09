@@ -6,25 +6,29 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
+const nodeRuntime = process.env.RUNTIME === 'node'
+
 export default defineConfig(({ isSsrBuild }) => ({
 	build: {
-		rollupOptions: isSsrBuild
-			? {
-					input: './workers/app.ts',
-					external: [
-						'cloudflare:workers',
-						'cloudflare:sockets',
-						/^cloudflare:.*/, // Pattern to match all cloudflare runtime modules
-					],
-				}
-			: undefined,
+		rollupOptions:
+			isSsrBuild && !nodeRuntime
+				? {
+						input: './workers/app.ts',
+						external: [
+							'cloudflare:workers',
+							'cloudflare:sockets',
+							/^cloudflare:.*/, // Pattern to match all cloudflare runtime modules
+						],
+					}
+				: undefined,
 	},
 	plugins: [
-		cloudflareDevProxy({
-			getLoadContext({ context }) {
-				return { cloudflare: context.cloudflare }
-			},
-		}),
+		!nodeRuntime &&
+			cloudflareDevProxy<Env, CfProperties>({
+				getLoadContext({ context }) {
+					return { cloudflare: context.cloudflare }
+				},
+			}),
 		// cloudflare({ viteEnvironment: { name: 'ssr' } }),
 		tailwindcss(),
 		reactRouter(),

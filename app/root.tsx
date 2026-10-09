@@ -7,12 +7,13 @@ import { GeneralErrorBoundary } from '~/components/GeneralErrorBoundary'
 import { GoogleAnalytics } from '~/components/GoogleAnalytics'
 import { Toaster } from '~/components/ui/toaster'
 import { clearUserId, setUserId } from '~/utils/analytics'
+import { contextToEnvironment } from '~/utils/backendConfig'
 import { buildFrontendConfig } from '~/utils/frontendConfig'
 import { getUser } from '~/utils/session.server'
 import './app.css'
 
 export async function loader({ context, request }: Route.LoaderArgs) {
-	const frontendConfig = buildFrontendConfig(context.cloudflare.env)
+	const frontendConfig = buildFrontendConfig(contextToEnvironment(context))
 	const user = await getUser(request, context)
 	return {
 		frontendConfig,

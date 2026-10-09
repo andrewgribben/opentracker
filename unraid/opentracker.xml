@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>opentracker</Name>
+  <Repository>opentracker:local</Repository>
+  <Registry>https://github.com/andrewgribben/opentracker/pkgs/container/opentracker</Registry>
+  <Network>bridge</Network>
+  <MyIP />
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/andrewgribben/opentracker/issues</Support>
+  <Project>https://github.com/andrewgribben/opentracker</Project>
+  <Overview>Self-hosted Pivotal Tracker style story board, REST API and MCP server. Persistent SQLite storage; no Cloudflare account required. Build opentracker:local on Unraid before installation, or select your published GHCR image.</Overview>
+  <Category>Productivity:</Category>
+  <WebUI>http://[IP]:[PORT:3000]</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/andrewgribben/opentracker/main/unraid/opentracker.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/andrewgribben/opentracker/main/public/icons/web-app-manifest-192x192.png</Icon>
+  <ExtraParams>--restart unless-stopped</ExtraParams>
+  <Config Name="Web port" Target="3000" Default="3000" Mode="tcp" Description="Host port for the web UI, REST API and MCP endpoint." Type="Port" Display="always" Required="true" Mask="false">3000</Config>
+  <Config Name="Appdata" Target="/data" Default="/mnt/user/appdata/opentracker" Mode="rw" Description="SQLite database and generated session secret. Prefer a cache-only appdata share." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/opentracker</Config>
+  <Config Name="Public URL" Target="DASHBOARD_URL" Default="http://YOUR-UNRAID-IP:3000" Mode="" Description="Browser-visible URL; use https:// when behind TLS." Type="Variable" Display="always" Required="true" Mask="false">http://YOUR-UNRAID-IP:3000</Config>
+  <Config Name="User ID" Target="PUID" Default="99" Mode="" Description="Unraid nobody user ID." Type="Variable" Display="always" Required="false" Mask="false">99</Config>
+  <Config Name="Group ID" Target="PGID" Default="100" Mode="" Description="Unraid users group ID." Type="Variable" Display="always" Required="false" Mask="false">100</Config>
+  <Config Name="File permissions" Target="UMASK" Default="002" Mode="" Description="File creation umask." Type="Variable" Display="always" Required="false" Mask="false">002</Config>
+  <Config Name="Timezone" Target="TZ" Default="Europe/London" Mode="" Description="IANA timezone." Type="Variable" Display="always" Required="false" Mask="false">Europe/London</Config>
+  <Config Name="Session secret" Target="SESSION_SECRET" Default="" Mode="" Description="Optional, at least 32 characters. Blank generates and saves a secret in appdata." Type="Variable" Display="advanced" Required="false" Mask="true" />
+  <Config Name="Secure cookies" Target="COOKIE_SECURE" Default="" Mode="" Description="Blank follows Public URL scheme; true for HTTPS, false for direct HTTP." Type="Variable" Display="advanced" Required="false" Mask="false" />
+  <Config Name="Trust reverse proxy" Target="TRUST_PROXY" Default="false" Mode="" Description="Set true only behind one proxy that overwrites X-Forwarded-For and X-Forwarded-Proto." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="SES region" Target="SES_AWS_REGION" Default="us-west-2" Mode="" Description="AWS region for optional SES notifications." Type="Variable" Display="advanced" Required="false" Mask="false">us-west-2</Config>
+  <Config Name="Email sender" Target="EMAIL_FROM" Default="" Mode="" Description="Optional SES verified sender address." Type="Variable" Display="advanced" Required="false" Mask="false" />
+  <Config Name="Admin email" Target="ADMIN_EMAIL" Default="" Mode="" Description="Optional signup notification recipient." Type="Variable" Display="advanced" Required="false" Mask="false" />
+  <Config Name="SES access key" Target="SES_AWS_ACCESS_KEY_ID" Default="" Mode="" Description="Optional AWS SES access key." Type="Variable" Display="advanced" Required="false" Mask="true" />
+  <Config Name="SES secret key" Target="SES_AWS_SECRET_ACCESS_KEY" Default="" Mode="" Description="Optional AWS SES secret key." Type="Variable" Display="advanced" Required="false" Mask="true" />
+  <Config Name="Sentry DSN" Target="SENTRY_DSN" Default="" Mode="" Description="Optional error reporting endpoint." Type="Variable" Display="advanced" Required="false" Mask="true" />
+  <Config Name="Google Analytics ID" Target="GOOGLE_ANALYTICS_ID" Default="" Mode="" Description="Optional analytics measurement ID." Type="Variable" Display="advanced" Required="false" Mask="false" />
+  <Config Name="Google Analytics secret" Target="GOOGLE_ANALYTICS_API_SECRET" Default="" Mode="" Description="Optional server analytics API secret." Type="Variable" Display="advanced" Required="false" Mask="true" />
+  <Config Name="Feedback widget" Target="USERO_CLIENT_ID" Default="" Mode="" Description="Blank disables the Usero widget. Set your own client ID to enable it." Type="Variable" Display="advanced" Required="false" Mask="false" />
+</Container>

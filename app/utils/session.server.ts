@@ -20,7 +20,7 @@ export const createSessionCookie = (context: AppLoadContext) => {
 	const config = contextToBackendConfig(context)
 	return createCookie('__sessionTracker', {
 		// Local dev runs over plain http, so the Secure flag would make the browser drop the cookie.
-		secure: !['dev', 'local'].includes(config.environment),
+		secure: config.cookieSecure === undefined ? !['dev', 'local'].includes(config.environment) : config.cookieSecure === 'true',
 		secrets: [config.sessionSecret],
 		sameSite: 'lax',
 		path: '/',

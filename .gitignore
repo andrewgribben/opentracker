@@ -30,3 +30,6 @@ test-results/
 # local planning docs and agent config, never published
 docs/pm/
 .claude/
+
+# Persistent Docker database and session secret
+/data/
